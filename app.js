@@ -7,8 +7,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-        res.send('Hello, Express!');
-    }
+    res.send('Hello, Express!');
+  }
 );
 
 app.listen(port, () => {
