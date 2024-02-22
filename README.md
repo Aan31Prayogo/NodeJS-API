@@ -1,2 +1,2 @@
 # NodeJS-API
-This is API bult by nodejs. for educationala and experemint purpose
+This is API bult by nodejs. for educational and experiment purpose
