@@ -28,7 +28,7 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
   var result = {}
   
   try{
-    const lastFirmware = utility.lastFirmware(process.env.FIRMWARE_PATH)
+    const lastFirmware = utility.getLastFirmware(process.env.FIRMWARE_PATH)
     logger.Info('Last firmware = ', lastFirmware)
 
     if (req.query.api_key === process.env.API_KEY) {
