@@ -21,8 +21,13 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.send('Hello, from aan prayogo !!');
-    LOG.Info('[Response] from route / ', JSON.stringify(res))
+    var result = {}
+    result['isSucces'] = true
+    result['message'] = 'Hello from server'
+    res.statusCode = 200
+    res.json(result);
+
+    LOG.Info('[Response] from route / ', JSON.stringify(result))
   }
 );
 
@@ -46,6 +51,7 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
     result['message'] = err,message
     res.statusCode = 500
     LOG.Error("error on download firmware: ", err)
+    console.log('error on download firmware: ', err)
     res.json(result)
   }
 })
