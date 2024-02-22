@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express()
 const bodyParser = require('body-parser');
-const port = 8081
 const LOG = require('node-file-logger')
+const path = require('path');
+
+
+const port = 8081
 const options = {
     folderPath: './logs/',
     dateBasedFileNaming: true,
@@ -19,12 +22,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.send('Hello, from aan prayogo !!');
-    LOG.Info('[Response] from route / ', res)
+    LOG.Info('[Response] from route / ', JSON.stringify(res))
   }
 );
 
 let downloadCounter = 1;
 app.get('/firmware/httpUpdateNew.bin', (req, res) => {
+  var result = {}
+  try{
     res.download(path.join(__dirname, 'firmware/myBlink.bin'), 'myBlink.bin', (err)=>{
         if (err) {
           console.error("Problem on download firmware: ", err)
@@ -35,6 +40,14 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
     });
     console.log('Your file has been downloaded '+downloadCounter+' times!')
     LOG.Info('Your file has been downloaded '+downloadCounter+' times!')
+  }
+  catch(err){
+    result['isSucces'] = false
+    result['message'] = err,message
+    res.statusCode = 500
+    LOG.Error("error on download firmware: ", err)
+    res.json(result)
+  }
 })
 
 app.listen(port, () => {
