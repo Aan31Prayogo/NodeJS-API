@@ -31,13 +31,13 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
       const fileName = "firmware.bin";
       res.download(filePath, fileName, (err)=>{
         if (err) {
-          console.error("Problem on download firmware: ", err)
+          console.log("Problem on download firmware: ", err)
           logger.Error("Problem on download firmware: ", err)
         }else{
           downloadCounter++;
         }
       });
-      console.logger('Your file has been downloaded '+downloadCounter+' times!')
+      console.log('Your file has been downloaded '+downloadCounter+' times!')
       logger.Info('Your file has been downloaded '+downloadCounter+' times!')
     }
     else{
@@ -50,7 +50,7 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
   }
   catch(err){
     logger.Error("error on download firmware: ", err)
-    console.logger('error on download firmware: ', err)
+    console.log('error on download firmware: ', err)
 
     result['isSucces'] = false
     result['message'] = err.message
@@ -60,6 +60,6 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.logger(`Server is listening on ${port}`);
+    console.log(`Server is listening on ${port}`);
   }
 );
