@@ -7,12 +7,13 @@ const path = require('path');
 
 const port = 8081
 const options = {
-    folderPath: './logs/',
-    dateBasedFileNaming: true,
-    fileNamePrefix: 'DailyLogs_',
-    fileNameExtension: '.log',    
-    dateFormat: 'YYYY_MM_D',
-    timeFormat: 'h:mm:ss A',
+  folderPath: './logs/',
+  dateBasedFileNaming: true,
+  fileNamePrefix: 'DailyLogs_',
+  fileNameExtension: '.log',    
+  dateFormat: 'YYYY_MM_D',
+  timeFormat: 'h:mm:ss',
+  timeZone : 'Asia/Bangkok'
 }
    
 LOG.SetUserOptions(options); 
