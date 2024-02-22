@@ -27,7 +27,7 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
   var result = {}
   try{
     if (req.query.api_key === process.env.API_KEY){
-      const filePath = path.join(__dirname, process.env.FIRMWARE_PATH, "myBlink.ino.bin"); 
+      const filePath = path.join(process.env.FIRMWARE_PATH, "myBlink.ino.bin"); 
       const fileName = "firmware.bin";
       res.download(filePath, fileName, (err)=>{
         if (err) {
