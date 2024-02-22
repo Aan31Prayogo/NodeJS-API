@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv');
 const logger = require('./service/logger.js');
-const getLastFirmware = require('./service/firmwareUtils.js');
+const firmwareUtils = require('./service/firmwareUtils.js');
 
 dotenv.config();
 const port = process.env.PORT || 8081
@@ -28,7 +28,8 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
   var result = {}
   
   try{
-    const lastFirmware = getLastFirmware(process.env.FIRMWARE_PATH)
+const firmwareUtils = require('./service/firmwareUtils.js');
+const lastFirmware = firmwareUtils.getLastFirmware(process.env.FIRMWARE_PATH)
     logger.Info('Last firmware = ', lastFirmware)
 
     if (req.query.api_key === process.env.API_KEY) {

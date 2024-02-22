@@ -16,4 +16,7 @@ const getLastFirmware = (directoryPath) => {
   }
 };
 
-module.exports = getLastFirmware;
+module.exports = {
+  getLastFirmware
+}
+  
