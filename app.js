@@ -3,9 +3,8 @@ const app = express()
 const bodyParser = require('body-parser');
 const LOG = require('node-file-logger')
 const path = require('path');
+const dotenv = require('dotenv')
 
-
-const port = 8081
 const options = {
   folderPath: './logs/',
   dateBasedFileNaming: true,
@@ -15,7 +14,9 @@ const options = {
   timeFormat: 'h:mm:ss',
   timeZone : 'Asia/Bangkok'
 }
-   
+
+dotenv.config()
+const port = 8081
 LOG.SetUserOptions(options); 
 
 app.use(bodyParser.json())
@@ -36,23 +37,33 @@ let downloadCounter = 1;
 app.get('/firmware/httpUpdateNew.bin', (req, res) => {
   var result = {}
   try{
-    res.download(path.join(__dirname, 'firmware/myBlink.bin'), 'myBlink.bin', (err)=>{
+    if (req.query.api_key === process.env.API_KEY){
+      res.download(path.join(__dirname, 'firmware/myBlink.bin'), 'myBlink.bin', (err)=>{
         if (err) {
           console.error("Problem on download firmware: ", err)
           LOG.Error("Problem on download firmware: ", err)
         }else{
           downloadCounter++;
         }
-    });
-    console.log('Your file has been downloaded '+downloadCounter+' times!')
-    LOG.Info('Your file has been downloaded '+downloadCounter+' times!')
+      });
+      console.log('Your file has been downloaded '+downloadCounter+' times!')
+      LOG.Info('Your file has been downloaded '+downloadCounter+' times!')
+    }
+    else{
+      LOG.Error('Invali API KEY ' , req.query.api_key)
+      result['isSucces'] = false
+      result['message'] = "Unauthorized"
+      res.statusCode = 401
+      res.json(result)
+    }
   }
   catch(err){
+    LOG.Error("error on download firmware: ", err)
+    console.log('error on download firmware: ', err)
+
     result['isSucces'] = false
     result['message'] = err,message
     res.statusCode = 500
-    LOG.Error("error on download firmware: ", err)
-    console.log('error on download firmware: ', err)
     res.json(result)
   }
 })
