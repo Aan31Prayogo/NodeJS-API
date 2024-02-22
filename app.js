@@ -2,11 +2,11 @@ const express = require('express');
 const app = express()
 const bodyParser = require('body-parser');
 const path = require('path');
-const dotenv = require('dotenv')
-const logger = require('./service/logger.js')
-const utils = require('./service/utility.js')
+const dotenv = require('dotenv');
+const logger = require('./service/logger.js');
+const utils = require('./service/utility.js');
 
-dotenv.config()
+dotenv.config();
 const port = process.env.PORT || 8081
 
 app.use(bodyParser.json())
