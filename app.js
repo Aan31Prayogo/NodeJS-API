@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.send('Hello, from aan prayogo !!');
-    LOG.info('[Response] from route / ', res)
+    LOG.Info('[Response] from route / ', res)
   }
 );
 
@@ -28,13 +28,13 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
     res.download(path.join(__dirname, 'firmware/myBlink.bin'), 'myBlink.bin', (err)=>{
         if (err) {
           console.error("Problem on download firmware: ", err)
-          LOG.error("Problem on download firmware: ", err)
+          LOG.Error("Problem on download firmware: ", err)
         }else{
           downloadCounter++;
         }
     });
     console.log('Your file has been downloaded '+downloadCounter+' times!')
-    LOG.info('Your file has been downloaded '+downloadCounter+' times!')
+    LOG.Info('Your file has been downloaded '+downloadCounter+' times!')
 })
 
 app.listen(port, () => {
