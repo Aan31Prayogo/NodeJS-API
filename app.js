@@ -6,7 +6,6 @@ const dotenv = require('dotenv');
 const logger = require('./service/logger.js');
 const getLastFirmware = require('./service/utility.js');
 
-console.log(utils)
 dotenv.config();
 const port = process.env.PORT || 8081
 
