@@ -3,7 +3,8 @@ const app = express()
 const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv')
-const logger = require('./logger.js')
+const logger = require('./service/logger.js')
+const utility = require('./service/utility.js')
 
 dotenv.config()
 const port = process.env.PORT || 8081
@@ -25,14 +26,23 @@ app.get('/', (req, res) => {
 let downloadCounter = 1;
 app.get('/firmware/httpUpdateNew.bin', (req, res) => {
   var result = {}
+  
   try{
-    if (req.query.api_key === process.env.API_KEY){
-      const filePath = path.join(process.env.FIRMWARE_PATH, "myBlink.ino.bin"); 
+    const lastFirmware = utility.lastFirmware(process.env.FIRMWARE_PATH)
+    logger.Info('Last firmware = ', lastFirmware)
+
+    if (req.query.api_key === process.env.API_KEY) {
+      const filePath = path.join(process.env.FIRMWARE_PATH, lastFirmware); 
       const fileName = "firmware.bin";
+
       res.download(filePath, fileName, (err)=>{
         if (err) {
           console.log("Problem on download firmware: ", err)
           logger.Error("Problem on download firmware: ", err)
+
+          result['isSucces'] = false;
+          result['message'] = err.message;
+          res.json(result);
         }else{
           downloadCounter++;
         }
@@ -47,8 +57,10 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
       res.statusCode = 401
       res.json(result)
     }
+
   }
   catch(err){
+
     logger.Error("error on download firmware: ", err)
     console.log('error on download firmware: ', err)
 
@@ -56,6 +68,7 @@ app.get('/firmware/httpUpdateNew.bin', (req, res) => {
     result['message'] = err.message
     res.statusCode = 500
     res.json(result)
+    
   }
 })
 
