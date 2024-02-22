@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv');
 const logger = require('./service/logger.js');
-const getLastFirmware = require('./service/utility.js');
+const getLastFirmware = require('./service/firmwareUtils.js');
 
 dotenv.config();
 const port = process.env.PORT || 8081
