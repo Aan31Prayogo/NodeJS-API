@@ -1,6 +1,5 @@
 const dotenv = require('dotenv');
-const logger = require('logger.js');
-
+const logger = require('./logger.js');
 dotenv.config()
 
 const validatorAPIKEY = (req,res,next) => {
