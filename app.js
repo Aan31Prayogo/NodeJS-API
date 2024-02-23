@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const logger = require('./service/logger.js');
 const firmwareUtils = require('./service/firmwareUtils.js');
 const middleWare = require('./service/middleware.js');
+const influx = require('./database/influxService.js')
 
 dotenv.config();
 const port = process.env.PORT || 8081
@@ -64,9 +65,20 @@ app.get('/firmware/httpUpdateNew.bin', middleWare.validatorAPIKEY , (req, res) =
   }
 })
 
-app.post("/sensor/storeData", (req,res)=> {
-
-
+app.get("/sensor/storeData", middleWare.validatorAPIKEY, (req,res)=> {
+  let result = {}
+  try{
+    influx.writeDataSensor()
+    result['isSucces'] = true
+    res.statusCode = 200
+  }
+  catch(err){
+    logger.Info("Failed /sensor/storeData with error  ", err.message)
+    result['isSucces'] = false
+    res.statusCode = 500
+  }
+  
+  res.json(result)
 });
 
 app.listen(port, () => {
