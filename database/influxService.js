@@ -17,8 +17,8 @@ function getRndInteger(min, max) {
 
 const writeDataSensor= () =>{
     try{
-        logger.Info("Received param influxWritePoint ", param)
-        console.log("Received param influxWritePoint ", param)
+        // logger.Info("Received param influxWritePoint ", param)
+        // console.log("Received param influxWritePoint ", param)
 
         let point1 = new Point('dummysensor')
         .tag('roomName', 'kitchen')
