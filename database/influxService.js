@@ -8,7 +8,6 @@ const org = process.env.INFLUXDB_ORG
 dotenv.config()
 
 const influxDB = new InfluxDB({ url, token })
-const writeApi = influxDB.getWriteApi(org, "prayogo")
 
 
 function getRndInteger(min, max) {
@@ -17,6 +16,8 @@ function getRndInteger(min, max) {
 
 const writeDataSensor= () =>{
     try{
+        let writeApi = influxDB.getWriteApi(org, "prayogo")
+
         // logger.Info("Received param influxWritePoint ", param)
         // console.log("Received param influxWritePoint ", param)
 
