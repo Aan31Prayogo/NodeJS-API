@@ -1,4 +1,6 @@
 const dotenv = require('dotenv');
+const logger = require('./service/logger.js');
+
 dotenv.config()
 
 const validatorAPIKEY = (req,res,next) => {
@@ -7,6 +9,7 @@ const validatorAPIKEY = (req,res,next) => {
         next()
     }
     else{
+        logger.Info('INVALID api key ', JSON.stringify(req))
         response['isSucces'] = false
         response['message'] = 'Unauthorized'
         res.statusCode=401
