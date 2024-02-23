@@ -25,13 +25,12 @@ const writeDataSensor= () =>{
         .intField('temperature', getRndInteger(24,30))
         
         writeApi.writePoint(point1)
-
-        writeApi.close().then(()=>{
-            console.log('WRITE FINISHED')
-        })
+        writeApi.close()
+        return true
     }
     catch(err){
         logger.Error("ERROR param influxWritePoint ", err.message)
+        return false
     }
 }
 
