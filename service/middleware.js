@@ -8,7 +8,7 @@ const validatorAPIKEY = (req,res,next) => {
         next()
     }
     else{
-        logger.Info('INVALID api key ', JSON.stringify(req))
+        logger.Info('INVALID api key ', req)
         response['isSucces'] = false
         response['message'] = 'Unauthorized'
         res.statusCode=401
