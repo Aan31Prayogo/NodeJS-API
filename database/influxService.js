@@ -26,7 +26,7 @@ const writeDataSensor= () =>{
         .intField('temperature', getRndInteger(24,30))
         .intField('humidity', getRndInteger(70,100))
 
-        
+        console.log(point1)
         writeApi.writePoint(point1)
         writeApi.close()
         return true
