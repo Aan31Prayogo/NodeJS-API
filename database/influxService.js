@@ -1,6 +1,6 @@
 const dotenv = require('dotenv')
 const { InfluxDB, Point } = require('@influxdata/influxdb-client')
-const logger = require('./service/logger.js');
+const logger = require('../service/logger.js');
 
 repl.repl.ignoreUndefined=true
 const token = process.env.INFLUXDB_TOKEN
