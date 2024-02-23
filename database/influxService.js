@@ -4,6 +4,7 @@ const logger = require('../service/logger.js');
 
 const token = process.env.INFLUXDB_TOKEN
 const url = process.env.INFLUXDB_URL
+const org = process.env.INFLUXDB_ORG
 dotenv.config()
 
 const influxDB = new InfluxDB({ url, token })
