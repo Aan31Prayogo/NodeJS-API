@@ -3,7 +3,6 @@ const logger = require('./logger.js');
 dotenv.config()
 
 const validatorAPIKEY = (req,res,next) => {
-    console.log("req : ", req)
     let response = {}
     if (req.query.api_key === process.env.API_KEY) {
         next()
