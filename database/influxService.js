@@ -23,8 +23,9 @@ const writeDataSensor= () =>{
 
         let point1 = new Point('dummysensor')
         .tag('roomName', 'kitchen')
-        .intField('temperature', getRndInteger(24,30)
-        .intField('humidity', getRndInteger(60,100))
+        .intField('temperature', getRndInteger(24,30))
+        .intField('humidity', getRndInteger(70,100))
+
         
         writeApi.writePoint(point1)
         writeApi.close()
