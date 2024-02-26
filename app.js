@@ -92,13 +92,13 @@ app.post("/sensor/insertNodeData", middleWare.validatorAPIKEY, (req,res) => {
     .then( () => {
         res.statusCode = 200;
         result['isSucces'] = true
-        reslt['message'] = "succes insert sensor data"
+        result['message'] = "succes insert sensor data"
       }
     )
     .catch((error) => {
       res.statusCode = 500;
       result['isSucces'] = false
-      reslt['message'] = error.message
+      result['message'] = error.message
     });
   }
   catch(err){
