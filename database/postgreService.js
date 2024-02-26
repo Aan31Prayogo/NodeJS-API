@@ -19,7 +19,7 @@ const insertSensorData = async(jsonData) => {
     logger.Info("Receice jsonData  insertSensorData ", jsonData)
 
     var query = {
-      text: 'INSERT INTO NodeDaata (nodeID, waterTemperature, airTemperature, airHumidity, firmwareVersion, ip) VALUES ($1, $2, $3, $4, $5, $6)',
+      text: 'INSERT INTO NodeData (nodeID, waterTemperature, airTemperature, airHumidity, firmwareVersion, ip) VALUES ($1, $2, $3, $4, $5, $6)',
       values: [
         jsonData.nodeID,
         jsonData.waterTemperature,
