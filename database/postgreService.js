@@ -16,9 +16,10 @@ const DB_POSTGRE = new Pool({
 const insertSensorData = async(jsonData) => {
   try{
     await DB_POSTGRE.connect();
+    let now_epoch =  Math.floor(Date.now()/1000)
 
-    var query = {
-      text: 'INSERT INTO public.NodeData (nodeID, waterTemperature, airTemperature, airHumidity, firmwareVersion, ip) VALUES ($1, $2, $3, $4, $5, $6)',
+    let query = {
+      text: 'INSERT INTO public.node_data (node_id, water_temperature, air_temperature, air_humidity, firmware_version, ip, last_update_epoch) VALUES ($1, $2, $3, $4, $5, $6, $7)',      
       values: [
         jsonData.nodeID,
         jsonData.waterTemperature,
@@ -26,19 +27,21 @@ const insertSensorData = async(jsonData) => {
         jsonData.airHumidity,
         jsonData.firmwareVersion,
         jsonData.ip,
+        now_epoch
       ],
     };
+    logger.Info("Query insert  ", JSON.stringify(query))
+
 
     var result = await DB_POSTGRE.query(query)
     logger.Info("Data insert succesfully ", result.rowCount)
-
   }
   catch(err){
-    logger.Error("Error insertSensorData ", err.message)
+    logger.Error("Error insertSensorData ", err)
     throw err
   }
   finally{
-    await DB_POSTGRE.end();
+    await DB_POSTGRE.release();
   }
 }
 

@@ -7,7 +7,7 @@ const options = {
     fileNamePrefix: 'DailyLogs_',
     fileNameExtension: '.log',    
     dateFormat: 'YYYY_MM_D',
-    timeFormat: 'h:mm:ss',
+    timeFormat: 'HH:mm:ss',
     timeZone : 'Asia/Bangkok'
 }
 
