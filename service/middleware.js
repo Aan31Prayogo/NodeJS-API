@@ -18,12 +18,15 @@ const validatorAPIKEY = (req,res,next) => {
 
 const validatorHeader = (req,res,next) => {
     let response = {}
+    console.log(req)
+    logger.Info('req', req)
+
     if (req.headers['API_KEY'] === process.env.API_KEY && req.headers['SECRET_KEY'] === process.env.SECRET_KEY) {
         next()
     }
     else{
-        logger.Info('INVALID api key ', req.header.API_KEY)
-        logger.Info('INVALID secret key ', req.header.API_KEY)
+        logger.Info('INVALID api key ', req.headers['API_KEY'])
+        logger.Info('INVALID secret key ', req.headers['API_KEY'])
         response['isSucces'] = false
         response['message'] = 'Unauthorized'
         res.statusCode=401
