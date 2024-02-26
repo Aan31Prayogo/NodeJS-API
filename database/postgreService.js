@@ -40,9 +40,6 @@ const insertSensorData = async(jsonData) => {
     logger.Error("Error insertSensorData ", err)
     throw err
   }
-  finally{
-    await DB_POSTGRE.release();
-  }
 }
 
 module.exports = {
