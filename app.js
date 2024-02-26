@@ -7,6 +7,7 @@ const logger = require('./service/logger.js');
 const firmwareUtils = require('./service/firmwareUtils.js');
 const middleWare = require('./service/middleware.js');
 const influx = require('./database/influxService.js')
+const postgre = require('./database/postgreService.js')
 
 dotenv.config();
 const port = process.env.PORT || 8081
@@ -80,6 +81,34 @@ app.get("/sensor/storeData", middleWare.validatorAPIKEY, (req,res)=> {
   
   res.json(result)
 });
+
+
+app.post("/sensor/insertNodeData", middleWare.validatorAPIKEY, (req,res) => {
+  let result = {}
+  let jsonData = req.body;
+
+  try{
+    postgre.insertSensorData(jsonData)
+    .then( () => {
+        res.statusCode = 200;
+        result['isSucces'] = true
+        reslt['message'] = "succes insert sensor data"
+      }
+    )
+    .catch((error) => {
+      res.statusCode = 500;
+      result['isSucces'] = false
+      reslt['message'] = error.message
+    });
+  }
+  catch(err){
+    logger.Error("Failed /sensor/insertNodeData with error  ", err.message)
+    result['isSucces'] = false
+    res.statusCode = 500
+  }
+  
+  res.json(result)
+}) 
 
 app.listen(port, () => {
     console.log(`Server is listening on ${port}`);
