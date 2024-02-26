@@ -83,34 +83,27 @@ app.get("/sensor/storeData", middleWare.validatorAPIKEY, (req,res)=> {
 });
 
 
-app.post("/sensor/insertNodeData", middleWare.validatorAPIKEY, (req,res) => {
-  let result = {}
-  let jsonData = req.body;
-  logger.Info("Receive jsonData  insertSensorData ", JSON.stringify(jsonData))
+app.post("/sensor/insertNodeData", middleWare.validatorAPIKEY, async (req, res) => {
+  const result = {};
+  const jsonData = req.body;
+  logger.Info("Received jsonData insertSensorData", JSON.stringify(jsonData));
 
+  try {
+    await postgre.insertSensorData(jsonData);
+    res.statusCode = 200;
+    result['isSuccess'] = true;
+    result['message'] = "Success insert sensor data";
+  } catch (error) {
+    res.statusCode = 500;
+    logger.Error("Failed /sensor/insertNodeData with error", error.message);
+    result['isSuccess'] = false;
+    result['message'] = error.message;
+  }
 
-  try{
-    postgre.insertSensorData(jsonData)
-    .then( () => {
-        res.statusCode = 200;
-        result['isSucces'] = true
-        result['message'] = "succes insert sensor data"
-      }
-    )
-    .catch((error) => {
-      res.statusCode = 500;
-      result['isSucces'] = false
-      result['message'] = error.message
-    });
-  }
-  catch(err){
-    logger.Error("Failed /sensor/insertNodeData with error  ", err.message)
-    result['isSucces'] = false
-    res.statusCode = 500
-  }
-  
-  res.json(result)
-}) 
+  res.setHeader('Content-Type', 'application/json');
+  res.json(result);
+});
+
 
 app.listen(port, () => {
     console.log(`Server is listening on ${port}`);
