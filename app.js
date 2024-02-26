@@ -86,6 +86,8 @@ app.get("/sensor/storeData", middleWare.validatorAPIKEY, (req,res)=> {
 app.post("/sensor/insertNodeData", middleWare.validatorAPIKEY, (req,res) => {
   let result = {}
   let jsonData = req.body;
+  logger.Info("Receive jsonData  insertSensorData ", JSON.stringify(jsonData))
+
 
   try{
     postgre.insertSensorData(jsonData)

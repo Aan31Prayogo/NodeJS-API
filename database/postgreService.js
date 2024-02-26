@@ -16,7 +16,6 @@ const DB_POSTGRE = new Pool({
 const insertSensorData = async(jsonData) => {
   try{
     await DB_POSTGRE.connect();
-    logger.Info("Receice jsonData  insertSensorData ", jsonData)
 
     var query = {
       text: 'INSERT INTO NodeData (nodeID, waterTemperature, airTemperature, airHumidity, firmwareVersion, ip) VALUES ($1, $2, $3, $4, $5, $6)',
