@@ -83,7 +83,7 @@ app.get("/sensor/storeData", middleWare.validatorAPIKEY, (req,res)=> {
 });
 
 
-app.post("/sensor/insertNodeData", middleWare.validatorAPIKEY, async (req, res) => {
+app.post("/sensor/insertNodeData", middleWare.validatorHeader, async (req, res) => {
   const result = {};
   const jsonData = req.body;
   logger.Info("Received jsonData insertSensorData", JSON.stringify(jsonData));
