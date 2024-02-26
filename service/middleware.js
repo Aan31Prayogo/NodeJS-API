@@ -19,9 +19,9 @@ const validatorAPIKEY = (req,res,next) => {
 const validatorHeader = (req,res,next) => {
     let response = {}
     console.log(req)
-    logger.Info('req', req)
+    logger.Info('req', JSON.stringify(req.headers))
 
-    if (req.headers['API_KEY'] === process.env.API_KEY && req.headers['SECRET_KEY'] === process.env.SECRET_KEY) {
+    if (req.headers['api_key'] === process.env.API_KEY && req.headers['secret_key'] === process.env.SECRET_KEY) {
         next()
     }
     else{
