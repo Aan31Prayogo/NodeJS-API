@@ -18,7 +18,7 @@ const insertSensorData = async(jsonData) => {
     await DB_POSTGRE.connect();
 
     var query = {
-      text: 'INSERT INTO NodeData (nodeID, waterTemperature, airTemperature, airHumidity, firmwareVersion, ip) VALUES ($1, $2, $3, $4, $5, $6)',
+      text: 'INSERT INTO public.NodeData (nodeID, waterTemperature, airTemperature, airHumidity, firmwareVersion, ip) VALUES ($1, $2, $3, $4, $5, $6)',
       values: [
         jsonData.nodeID,
         jsonData.waterTemperature,
