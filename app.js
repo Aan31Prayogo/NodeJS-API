@@ -86,7 +86,7 @@ app.post("/sensor/storeInfluxData", middleWare.validatorHeader, (req,res)=> {
 
 
 app.post("/sensor/insertNodeData", middleWare.validatorHeader, async (req, res) => {
-	const result = {};
+	let result = {};
 	const jsonData = req.body;
 	logger.Info("Received jsonData insertSensorData", JSON.stringify(jsonData));
 
