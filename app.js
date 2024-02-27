@@ -28,84 +28,82 @@ app.get('/', (req, res) => {
 );
 
 app.get('/firmware/httpUpdateNew.bin', middleWare.validatorAPIKEY , (req, res) => {
-  let downloadCounter = 1;
-  let result = {}
-  
-  try{
-    const lastFirmware = firmwareUtils.getLastFirmware(process.env.FIRMWARE_PATH)
-    logger.Info('Last firmware = ', lastFirmware)
+	let downloadCounter = 1;
+	let result = {}
 
-    const filePath = path.join(process.env.FIRMWARE_PATH, lastFirmware); 
-    const fileName = "firmware.bin";
+	try{
+		const lastFirmware = firmwareUtils.getLastFirmware(process.env.FIRMWARE_PATH)
+		logger.Info('Last firmware = ', lastFirmware)
 
-    res.download(filePath, fileName, (err)=>{
-      if (err) {
-        console.log("Problem on download firmware: ", err)
-        logger.Error("Problem on download firmware: ", err)
+		const filePath = path.join(process.env.FIRMWARE_PATH, lastFirmware); 
+		const fileName = "firmware.bin";
 
-        result['isSucces'] = false;
-        result['message'] = err.message;
-        res.json(result);
-      }else{
-        downloadCounter++;
-      }
-    });
-    console.log('Your file has been downloaded '+downloadCounter+' times!')
-    logger.Info('Your file has been downloaded '+downloadCounter+' times!')
-  }
-  catch(err){
+		res.download(filePath, fileName, (err)=>{
+			if (err) {
+				console.log("Problem on download firmware: ", err)
+				logger.Error("Problem on download firmware: ", err)
 
-    logger.Error("error on download firmware: ", err)
-    console.log('error on download firmware: ', err)
+				result['isSucces'] = false;
+				result['message'] = err.message;
+				res.json(result);
+			}else{
+				downloadCounter++;
+			}
+		});
+		console.log('Your file has been downloaded '+downloadCounter+' times!')
+		logger.Info('Your file has been downloaded '+downloadCounter+' times!')
+	}
+	catch(err){
 
-    result['isSucces'] = false
-    result['message'] = err.message
-    res.statusCode = 500
-    res.json(result)
-    
-  }
+		logger.Error("error on download firmware: ", err)
+		console.log('error on download firmware: ', err)
+
+		result['isSucces'] = false
+		result['message'] = err.message
+		res.statusCode = 500
+		res.json(result)
+	}
 })
 
 app.get("/sensor/storeData", middleWare.validatorAPIKEY, (req,res)=> {
-  let result = {}
-  try{
-    influx.writeDataSensor()
-    result['isSucces'] = true
-    res.statusCode = 200
-  }
-  catch(err){
-    logger.Info("Failed /sensor/storeData with error  ", err.message)
-    result['isSucces'] = false
-    res.statusCode = 500
-  }
-  
-  res.json(result)
+	let result = {}
+	try{
+		influx.writeDataSensor()
+		result['isSucces'] = true
+		res.statusCode = 200
+	}
+	catch(err){
+		logger.Info("Failed /sensor/storeData with error  ", err.message)
+		result['isSucces'] = false
+		res.statusCode = 500
+	}
+
+	res.json(result)
 });
 
 
 app.post("/sensor/insertNodeData", middleWare.validatorHeader, async (req, res) => {
-  const result = {};
-  const jsonData = req.body;
-  logger.Info("Received jsonData insertSensorData", JSON.stringify(jsonData));
+	const result = {};
+	const jsonData = req.body;
+	logger.Info("Received jsonData insertSensorData", JSON.stringify(jsonData));
 
-  try {
-    await postgre.insertSensorData(jsonData);
-    res.statusCode = 200;
-    result['isSuccess'] = true;
-    result['message'] = "Success insert sensor data";
-  } catch (error) {
-    res.statusCode = 500;
-    logger.Error("Failed /sensor/insertNodeData with error", error.message);
-    result['isSuccess'] = false;
-    result['message'] = error.message;
-  }
+	try {
+		await postgre.insertSensorData(jsonData);
+		res.statusCode = 200;
+		result['isSuccess'] = true;
+		result['message'] = "Success insert sensor data";
+	} catch (error) {
+		res.statusCode = 500;
+		logger.Error("Failed /sensor/insertNodeData with error", error.message);
+		result['isSuccess'] = false;
+		result['message'] = error.message;
+	}
 
-  res.setHeader('Content-Type', 'application/json');
-  res.json(result);
+	res.setHeader('Content-Type', 'application/json');
+	res.json(result);
 });
 
 
 app.listen(port, () => {
-    console.log(`Server is listening on ${port}`);
-  }
-);
+	console.log(`Server is listening on ${port}`);
+});

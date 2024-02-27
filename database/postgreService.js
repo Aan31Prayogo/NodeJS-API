@@ -5,11 +5,11 @@ const logger = require('../service/logger.js');
 dotenv.config()
 
 const DB_POSTGRE = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT || 5432,
+	user: process.env.DB_USER,
+	host: process.env.DB_HOST,
+	database: process.env.DATABASE,
+	password: process.env.DB_PASSWORD,
+	port: process.env.DB_PORT || 5432,
 })
 
 
