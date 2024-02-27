@@ -35,10 +35,17 @@ const insertSensorData = async(jsonData) => {
 
     var result = await DB_POSTGRE.query(query)
     logger.Info("Data insert succesfully ", result.rowCount)
+	return {
+		isSuccess : true,
+		message : 'Succes insert sensor data to postgresql'
+	}
   }
   catch(err){
     logger.Error("Error insertSensorData ", err)
-    throw err
+    return {
+		isSuccess : false,
+		message : err.message
+	}
   }
 }
 

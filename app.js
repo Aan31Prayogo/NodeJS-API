@@ -68,16 +68,19 @@ app.get('/firmware/httpUpdateNew.bin', middleWare.validatorAPIKEY , (req, res) =
 app.post("/sensor/storeInfluxData", middleWare.validatorHeader, (req,res)=> {
 	let result = {}
 	try{
-		influx.writeDataSensor(req.body)
-		result['isSucces'] = true
-		res.statusCode = 200
+		const callbackResult = influx.writeDataSensor(req.body)
+		res.statusCode = callbackResult.isSuccess ? 200 : 500;
+		result['isSuccess'] = callbackResult.isSuccess;
+		result['message'] = callbackResult.message;
 	}
 	catch(err){
-		logger.Info("Failed /sensor/storeData with error  ", err.message)
-		result['isSucces'] = false
-		res.statusCode = 500
+		logger.Error("Failed /sensor/storeInfluxData with error", err.message);
+		res.statusCode = 500;
+		result['isSuccess'] = false;
+		result['message'] = err.message;
 	}
 
+	res.setHeader('Content-Type', 'application/json');
 	res.json(result)
 });
 
@@ -88,15 +91,15 @@ app.post("/sensor/insertNodeData", middleWare.validatorHeader, async (req, res) 
 	logger.Info("Received jsonData insertSensorData", JSON.stringify(jsonData));
 
 	try {
-		await postgre.insertSensorData(jsonData);
-		res.statusCode = 200;
-		result['isSuccess'] = true;
-		result['message'] = "Success insert sensor data";
-	} catch (error) {
+		const callbackResult = await postgre.insertSensorData(jsonData);
+		res.statusCode = callbackResult.isSuccess ? 200 : 500;
+		result['isSuccess'] = callbackResult.isSuccess;
+		result['message'] = callbackResult.message;
+	} catch (err) {
 		res.statusCode = 500;
-		logger.Error("Failed /sensor/insertNodeData with error", error.message);
+		logger.Error("Failed /sensor/insertNodeData with error", err.message);
 		result['isSuccess'] = false;
-		result['message'] = error.message;
+		result['message'] = err.message;
 	}
 
 	res.setHeader('Content-Type', 'application/json');

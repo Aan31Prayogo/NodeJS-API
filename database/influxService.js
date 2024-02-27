@@ -34,11 +34,17 @@ const writeDataSensor= (jsonData) =>{
 
         writeApi.writePoint(point1)
         writeApi.close()
-        return true
+        return {
+            isSuccess : true,
+            message : 'Succes Insert influxDB Data'
+        }
     }
     catch(err){
         logger.Error("ERROR param influxWritePoint ", err.message)
-        return false
+        return {
+            isSuccess : false,
+            message : err.message
+        }    
     }
 }
 
