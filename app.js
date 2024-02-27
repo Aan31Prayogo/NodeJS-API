@@ -65,10 +65,10 @@ app.get('/firmware/httpUpdateNew.bin', middleWare.validatorAPIKEY , (req, res) =
 	}
 })
 
-app.get("/sensor/storeData", middleWare.validatorAPIKEY, (req,res)=> {
+app.post("/sensor/storeInfluxData", middleWare.validatorHeader, (req,res)=> {
 	let result = {}
 	try{
-		influx.writeDataSensor()
+		influx.writeDataSensor(req.body)
 		result['isSucces'] = true
 		res.statusCode = 200
 	}
