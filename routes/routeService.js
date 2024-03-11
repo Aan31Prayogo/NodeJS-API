@@ -1,9 +1,9 @@
 const path = require('path');
 const dotenv = require('dotenv');
-const logger = require('./service/logger.js');
-const firmwareUtils = require('./service/firmwareUtils.js');
-const influx = require('./database/influxService.js')
-const postgre = require('./database/postgreService.js')
+const logger = require('../service/logger.js');
+const firmwareUtils = require('../service/firmwareUtils.js');
+const influx = require('../database/influxService.js')
+const postgre = require('../database/postgreService.js')
 
 dotenv.config();
 const home = (req,res) =>  {
