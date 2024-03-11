@@ -21,3 +21,6 @@ vendor
 # IDE files
 .idea
 .vscode
+
+package.json
+package-lock.json

@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express()
+const dotenv = require('dotenv')
 const bodyParser = require('body-parser');
 const route = require("./routes/routeService.js")
+const middleWare = require("./service/middleware.js")
 
 dotenv.config();
 const port = process.env.PORT || 8081
