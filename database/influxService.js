@@ -47,7 +47,41 @@ const writeDataSensor= (jsonData) =>{
     }
 }
 
+const writeTemperatureLogger = (jsondata) => {
+    try{
+        let contactTemperature = jsondata.tempDS18b20.toFixed(2)
+        let airTemperature = jsondata.tempDHT22.toFixed(2);
+        let airHumidity = jsondata.humDHT22.toFixed(2);
+
+        let writeApi = influxDB.getWriteApi(org, "prayogo")
+
+        logger.Info("Received param influxWritePoint ", jsondata)
+
+        let point1 = new Point('DataSensor')
+        .tag('deviceName', 'TemperatureLogger')
+        .floatField('ContactTemperature', contactTemperature)
+        .floatField('AirTemperature', airTemperature)
+        .floatField('AirHumidity', airHumidity)
+
+
+        writeApi.writePoint(point1)
+        writeApi.close()
+        return {
+            isSuccess : true,
+            message : 'Succes write writeTemperatureLogger Data'
+        }
+    }
+    catch(err){
+        logger.Error("ERROR param writeTemperatureLogger ", err.message)
+        return {
+            isSuccess : false,
+            message : err.message
+        }    
+    }
+
+}
 
 module.exports = {
-    writeDataSensor
+    writeDataSensor,
+    writeTemperatureLogger
 }

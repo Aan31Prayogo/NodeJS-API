@@ -71,6 +71,25 @@ const insertInflux = (req,res ) => {
 	res.json(result)
 }
 
+const writeTemperatureLogger = (req,res ) => {
+    let result = {}
+	try{
+		const callbackResult = influx.writeTemperatureLogger(req.body)
+		res.statusCode = callbackResult.isSuccess ? 200 : 500;
+		result['isSuccess'] = callbackResult.isSuccess;
+		result['message'] = callbackResult.message;
+	}
+	catch(err){
+		logger.Error("Failed /sensor/writeTemperatureLogger with error", err.message);
+		res.statusCode = 500;
+		result['isSuccess'] = false;
+		result['message'] = err.message;
+	}
+
+	res.setHeader('Content-Type', 'application/json');
+	res.json(result)
+}
+
 const insertPostgre = async(req,res) => {
     let result = {};
     const jsonData = req.body;
@@ -97,5 +116,6 @@ module.exports ={
     home,
     getLastFirmware,
     insertInflux,
-    insertPostgre
+    insertPostgre,
+	writeTemperatureLogger
 }

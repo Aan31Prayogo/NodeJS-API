@@ -16,6 +16,8 @@ app.get('/', route.home);
 app.get('/firmware/httpUpdateNew.bin', middleWare.validatorAPIKEY , route.getLastFirmware);
 app.post("/sensor/storeInfluxData", middleWare.validatorHeader, route.insertInflux);
 app.post("/sensor/insertNodeData", middleWare.validatorHeader, route.insertPostgre);
+app.post("/sensor/writeTemperatureLogger", middleWare.validatorHeader, route.writeTemperatureLogger);
+
 
 app.listen(port, () => {
 	console.log(`Server is listening on ${port}`);
