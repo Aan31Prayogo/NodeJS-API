@@ -47,6 +47,7 @@ const writeDataSensor= (jsonData) =>{
     }
 }
 
+// Temperauter logger WemosD1mini with ds18b20
 const writeTemperatureLogger = (jsondata) => {
     try{
         let contactTemperature = jsondata.tempDS18b20.toFixed(2)
@@ -81,7 +82,40 @@ const writeTemperatureLogger = (jsondata) => {
 
 }
 
+// Temperature DHt22 + Relay + oled
+const writeTemperatureData = (jsondata) => {
+    try{
+        let airTemperature = jsondata.tempDHT22.toFixed(2);
+        let airHumidity = jsondata.humDHT22.toFixed(2);
+
+        let writeApi = influxDB.getWriteApi(org, "prayogo")
+
+        logger.Info("Received param writeTemperatureData ", jsondata)
+
+        let point1 = new Point('DataSensor')
+        .tag('deviceName', 'TemperatureRelay')
+        .floatField('AirTemperature', airTemperature)
+        .floatField('AirHumidity', airHumidity)
+
+        writeApi.writePoint(point1)
+        writeApi.close()
+        return {
+            isSuccess : true,
+            message : 'Succes write writeTemperatureData Data'
+        }
+    }
+    catch(err){
+        logger.Error("ERROR param writeTemperatureLogger ", err.message)
+        return {
+            isSuccess : false,
+            message : err.message
+        }    
+    }
+
+}
+
 module.exports = {
     writeDataSensor,
-    writeTemperatureLogger
+    writeTemperatureLogger,
+    writeTemperatureData
 }

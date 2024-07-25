@@ -13,10 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/', route.home);
-app.get('/firmware/httpUpdateNew.bin', middleWare.validatorAPIKEY , route.getLastFirmware);
-app.post("/sensor/storeInfluxData", middleWare.validatorHeader, route.insertInflux);
-app.post("/sensor/insertNodeData", middleWare.validatorHeader, route.insertPostgre);
-app.post("/sensor/writeTemperatureLogger", middleWare.validatorHeader, route.writeTemperatureLogger);
+app.get('/firmware/httpUpdateNew.bin', middleWare.validatorAPIKEY , route.getLastFirmware); //OTA updater ESP32
+app.post("/sensor/storeInfluxData", middleWare.validatorHeader, route.insertInflux); //NodeREd
+app.post("/sensor/insertNodeData", middleWare.validatorHeader, route.insertPostgre); //NodeRed
+app.post("/sensor/writeTemperatureLogger", middleWare.validatorHeader, route.writeTemperatureLogger); //Wemos D1 mini, DHT22, DS18B20
+app.post("/sensor/writeTemperatureData", middleWare.validatorHeader, route.writeTemperatureData);  //Wemos D1 mini, Relay, DHt22
+
 
 
 app.listen(port, () => {
